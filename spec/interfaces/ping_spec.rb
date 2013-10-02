@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Ping::API do
   include Rack::Test::Methods
 
+  # Test the Ping API by mounting it at /ping within a HAL
+  # super-API. Instantiate the new super-API class to integrate with Rack Test.
   def app
     Class.new(Grape::API) do
       content_type :hal, 'application/hal+json'
@@ -13,6 +15,9 @@ describe Ping::API do
   end
 
   describe 'positive expectations' do
+    # All positive expectations succeed only with the application/hal+json
+    # request content type. The API is HAL! See
+    # http://stateless.co/hal_specification.html for details.
     before(:each) do
       header 'Accept', 'application/hal+json'
     end
