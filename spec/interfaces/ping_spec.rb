@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Ping::API do
-  include Rack::Test::Methods
-
   # Test the Ping API by mounting it at /ping within a HAL
   # super-API. Instantiate the new super-API class to integrate with Rack Test.
   def app

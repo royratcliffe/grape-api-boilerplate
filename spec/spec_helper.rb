@@ -18,4 +18,7 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+
+  # Make Rack::Test available to all RSpec contexts.
+  config.include Rack::Test::Methods
 end
