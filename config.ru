@@ -1,5 +1,3 @@
-require 'active_support/dependencies'
-
-ActiveSupport::Dependencies.autoload_paths += %w(app/interfaces)
+require File.expand_path('config/environment', __FILE__)
 
 run API.new
