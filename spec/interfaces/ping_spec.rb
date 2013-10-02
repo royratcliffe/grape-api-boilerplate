@@ -6,12 +6,7 @@ describe Ping::API do
   # Test the Ping API by mounting it at /ping within a HAL
   # super-API. Instantiate the new super-API class to integrate with Rack Test.
   def app
-    Class.new(Grape::API) do
-      content_type :hal, 'application/hal+json'
-      formatter :hal, Grape::Formatter::SerializableHash
-
-      mount Ping::API => '/ping'
-    end.new
+    API.new
   end
 
   describe 'positive expectations' do
