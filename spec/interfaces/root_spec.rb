@@ -10,6 +10,8 @@ describe API do
     header 'Accept', 'application/hal+json'
   end
 
+  # GET requests on the API root path should answer with links: a link to self
+  # matching the request URL; also links to other mounted services.
   describe '/' do
     it 'GET responds with _links' do
       get '/'
