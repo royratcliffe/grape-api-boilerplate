@@ -17,4 +17,8 @@ class API < Grape::API
       mount "#{path}::API".camelize.constantize => File.join(File::SEPARATOR, path)
     end
   end
+
+  get do
+    { _links: { self: { href: request.url } } }
+  end
 end
