@@ -11,7 +11,7 @@ class API < Grape::API
   # app/interfaces subfolders. Mount the API at a mount point corresponding to
   # its sub-directory path.
   ActiveSupport::Dependencies.autoload_paths.each do |interfaces_dir|
-    Dir[File.join(interfaces_dir, '*', 'api.rb')].each do |api_rb|
+    Dir[File.join(interfaces_dir, '*', '**', 'api.rb')].each do |api_rb|
       relative_api_rb = Pathname.new(api_rb).relative_path_from(Pathname.new(interfaces_dir)).to_path
       path = relative_api_rb.split(File::SEPARATOR)[0...-1].join(File::SEPARATOR)
       mount "#{path}::API".camelize.constantize => File.join(File::SEPARATOR, path)
