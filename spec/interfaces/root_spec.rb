@@ -28,7 +28,7 @@ describe API do
 
       context '_links' do
         subject { JSON.parse(last_response.body)['_links'] }
-        it { should include('self') }
+        it { should include({ 'self' => { 'href' => '/' } }) }
       end
     end
   end
