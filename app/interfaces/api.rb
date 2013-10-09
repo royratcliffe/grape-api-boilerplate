@@ -18,7 +18,19 @@ class API < Grape::API
     end
   end
 
+  # Iterate through the API routes looking for GET requests without additional
+  # capture groups. Expect only the format capture, since all routes accept an
+  # optional format.
   get do
-    { _links: { self: { href: request.url } } }
+    links = {}
+    API.routes.select do |route|
+      regex = Rack::Mount::RegexpWithNamedGroups.new(route.route_compiled)
+      (regex.names - %w(format)).empty? && route.route_method == 'GET'
+    end.each do |route|
+      path = route.route_path || '/'
+      path.gsub!('(.:format)', '')
+      links[path.gsub('/', '_')[1..-1]] = { href: path }
+    end
+    { _links: links }
   end
 end
