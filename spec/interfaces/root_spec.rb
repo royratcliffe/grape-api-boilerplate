@@ -19,14 +19,17 @@ describe API do
     end
 
     subject { last_response }
-
     it { should be_ok }
 
     context 'JSON body' do
       subject { JSON.parse(last_response.body) }
-
       it { should_not be_nil }
       it { should include('_links') }
+
+      context '_links' do
+        subject { JSON.parse(last_response.body)['_links'] }
+        it { should include('self') }
+      end
     end
   end
 end

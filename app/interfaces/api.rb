@@ -29,7 +29,9 @@ class API < Grape::API
     end.each do |route|
       path = route.route_path || '/'
       path.gsub!('(.:format)', '')
-      links[path.gsub('/', '_')[1..-1]] = { href: path }
+      link = path.gsub('/', '_')[1..-1]
+      link = 'self' if link.blank?
+      links[link] = { href: path }
     end
     { _links: links }
   end
