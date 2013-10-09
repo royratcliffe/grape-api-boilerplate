@@ -16,8 +16,8 @@ describe API do
   describe '/' do
     it 'GET responds with _links' do
       get '/'
-      last_response.should be_ok
-      JSON.parse(last_response.body)['_links']['self']['href'].should == last_request.url
+      expect(last_response).to be_ok
+      expect(JSON.parse(last_response.body)['_links']['self']['href']).to eq(last_request.url)
     end
   end
 end

@@ -16,34 +16,34 @@ describe Ping::API do
     end
 
     after(:each) do
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
 
     it 'responds with pong by default' do
       get '/ping'
-      last_response.body.should == { ping: :pong }.to_json
+      expect(last_response.body).to eq({ ping: :pong }.to_json)
     end
 
     it 'responds with arbitrary text' do
       get '/ping', { pong: 'xyz' }
-      last_response.body.should == { ping: 'xyz' }.to_json
+      expect(last_response.body).to eq({ ping: 'xyz' }.to_json)
     end
   end
 
   describe 'negative expectations' do
     after(:each) do
-      last_response.should_not be_ok
+      expect(last_response).to_not be_ok
     end
 
     it 'responds with Not Acceptable' do
       get '/ping'
-      last_response.status.should == 406
+      expect(last_response.status).to eq(406)
     end
 
     it 'responds to JSON with Not Acceptable' do
       header 'Accept', 'application/json'
       get '/ping'
-      last_response.status.should == 406
+      expect(last_response.status).to eq(406)
     end
   end
 end
