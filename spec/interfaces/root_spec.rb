@@ -13,11 +13,20 @@ describe API do
 
   # GET requests on the API root path should answer with links: a link to self
   # matching the request URL; also links to other mounted services.
-  describe '/' do
-    it 'GET responds with _links' do
+  describe 'GET /' do
+    before do
       get '/'
-      expect(last_response).to be_ok
-      expect(JSON.parse(last_response.body)['_links']).not_to be_nil
+    end
+
+    subject { last_response }
+
+    it { should be_ok }
+
+    context 'JSON body' do
+      subject { JSON.parse(last_response.body) }
+
+      it { should_not be_nil }
+      it { should include('_links') }
     end
   end
 end
