@@ -11,10 +11,28 @@ class API < Grape::API
   # app/interfaces subfolders. Mount the API at a mount point corresponding to
   # its sub-directory path.
   ActiveSupport::Dependencies.autoload_paths.each do |interfaces_dir|
-    Dir[File.join(interfaces_dir, '*', 'api.rb')].each do |api_rb|
+    Dir[File.join(interfaces_dir, '*', '**', 'api.rb')].each do |api_rb|
       relative_api_rb = Pathname.new(api_rb).relative_path_from(Pathname.new(interfaces_dir)).to_path
       path = relative_api_rb.split(File::SEPARATOR)[0...-1].join(File::SEPARATOR)
       mount "#{path}::API".camelize.constantize => File.join(File::SEPARATOR, path)
     end
+  end
+
+  # Iterate through the API routes looking for GET requests without additional
+  # capture groups. Expect only the format capture, since all routes accept an
+  # optional format.
+  get do
+    links = {}
+    API.routes.select do |route|
+      regex = Rack::Mount::RegexpWithNamedGroups.new(route.route_compiled)
+      (regex.names - %w(format)).empty? && route.route_method == 'GET'
+    end.each do |route|
+      path = route.route_path || '/'
+      path.gsub!('(.:format)', '')
+      link = path.gsub('/', '_')[1..-1]
+      link = 'self' if link.blank?
+      links[link] = { href: path }
+    end
+    { _links: links }
   end
 end

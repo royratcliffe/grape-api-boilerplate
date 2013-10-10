@@ -21,4 +21,10 @@ RSpec.configure do |config|
 
   # Make Rack::Test available to all RSpec contexts.
   config.include Rack::Test::Methods
+
+  # Enable the expect syntax and disable the should syntax, as recommended for
+  # new RSpec projects.
+  config.expect_with :rspec do |matchers_config|
+    matchers_config.syntax = :expect
+  end
 end
