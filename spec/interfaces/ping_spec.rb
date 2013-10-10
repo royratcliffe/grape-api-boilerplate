@@ -7,7 +7,7 @@ describe Ping::API do
     API.new
   end
 
-  describe 'positive expectations' do
+  context 'with application/hal+json' do
     # All positive expectations succeed only with the application/hal+json
     # request content type. The API is HAL! See
     # http://stateless.co/hal_specification.html for details.
@@ -30,7 +30,7 @@ describe Ping::API do
     end
   end
 
-  describe 'negative expectations' do
+  context 'without application/hal+json' do
     after(:each) do
       expect(last_response).to_not be_ok
     end
